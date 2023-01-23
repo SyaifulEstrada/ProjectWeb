@@ -93,8 +93,10 @@ class RestaurantStaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(RestaurantStaff $staffrestaurant)
     {
-        //
+        $staffrestaurant->delete();
+
+        return to_route('restaurantstaff.index')->with('success', 'Data has been deleted!!');
     }
 }

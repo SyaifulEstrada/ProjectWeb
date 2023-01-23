@@ -14,9 +14,9 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('menu.index') }}">
           <span data-feather="users" class="align-text-bottom"></span>
-          Customers
+          Menu
         </a>
       </li>
       <li class="nav-item">

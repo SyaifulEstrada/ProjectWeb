@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\KitchenStaffController;
 use App\Http\Controllers\Admin\RestaurantStaffController;
 use App\Http\Controllers\Login\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\FoodItemControllerr;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 Route::group((['middleware' => 'auth', 'prefix' => 'admin', 'name' => 'admin.']), function () {
   Route::resource('/kitchenstaff', KitchenStaffController::class, ['parameters' => ['kitchenstaff' => 'kitchen_staffs']]);
   Route::resource('/restaurantstaff', RestaurantStaffController::class,  ['parameters' => ['restaurantstaff' => 'staffrestaurant']]);
+  Route::resource('/menu', FoodItemControllerr::class);
 });
 
 // Route::middleware('auth')->group(function () {
