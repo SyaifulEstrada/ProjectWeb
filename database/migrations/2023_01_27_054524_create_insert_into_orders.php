@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
-            $table->id('customer_id');
-            $table->string('table_id');
-            $table->timestamps();
-        });
+     DB::unprepared('
+      CREATE TRIGGER insert_into_orders AFTER INSERT ON reservations FOR EACH ROW
+      BEGIN
+      INSERT INTO orders VALUES (order_id, new.customer_id, user_id, new.created_at, new.updated_at);
+      END
+     ');
     }
 
     /**
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+      DB::unprepared('DROP TRIGGER "insert_into_orders"');
     }
 };

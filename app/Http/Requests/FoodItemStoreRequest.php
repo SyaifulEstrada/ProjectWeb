@@ -25,6 +25,8 @@ class FoodItemStoreRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'image' => ['required' , 'image'],
+            'ingredients_name' => ['required'],
             'quantity' => ['required'],
             'price' => ['required'],
         ];

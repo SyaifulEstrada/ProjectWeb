@@ -13,11 +13,6 @@ class Menu extends Model
 
     protected $primaryKey = 'menu_id';
 
-    public function resturant_staffs()
-    {
-      return $this->hasMany(RestaurantStaff::class, 'food_items', 'food_id');
-    }
-
     public function food_items()
     {
       return $this->hasMany(FoodItem::class, 'food_id');

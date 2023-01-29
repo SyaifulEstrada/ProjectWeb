@@ -8,6 +8,8 @@ use App\Http\Requests\MenuStoreRequest;
 use App\Models\FoodItem;
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class FoodItemControllerr extends Controller
 {
@@ -18,8 +20,10 @@ class FoodItemControllerr extends Controller
      */
     public function index()
     {
-        $menu = FoodItem::with('menus')->paginate(3);
-        return view('admin.menu.index', compact('menu'));
+        // $menu = FoodItem::with('menus')->paginate(3);
+        return view('admin.menu.index', [
+          'menu' => FoodItem::latest()->filter(request(['search']))->paginate(3)
+        ]);
     }
 
     /**
@@ -40,11 +44,17 @@ class FoodItemControllerr extends Controller
      */
     public function store(FoodItemStoreRequest $request)
     {
-        FoodItem::create([
+
+        $image = $request->file('image')->store('public/menus');
+
+         FoodItem::create([
           'name' => $request->name,
+          'image' => $image,
+          'ingredients_name' => $request->ingredients_name,
           'quantity' => $request->quantity,
           'price' => $request->price
         ]);
+
 
         return to_route('menu.index')->with('success', 'Data hasbeen Added');
 
@@ -68,9 +78,9 @@ class FoodItemControllerr extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(FoodItem $menu)
     {
-        //
+        return view('admin.menu.edit', compact('menu'));
     }
 
     /**
@@ -80,9 +90,31 @@ class FoodItemControllerr extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, FoodItem $menu)
     {
-        //
+        $request->validate([
+          'name' => 'required',
+          'quantity' => 'required',
+          'price' => 'required'
+        ]);
+        
+
+        $image = $menu->image;
+        if($request->hasFile('image')) {
+          Storage::delete($menu->image);
+          $image = $request->file('image')->store('public/menus');
+        }
+
+        $menu->update([
+          'name' => $request->name,
+          'image' => $image,
+          'quantity' => $request->quantity,
+          'price' => $request->price,
+        ]);
+
+        return to_route('menu.index')->with('success', 'Menu has been updated');
+
+        
     }
 
     /**
@@ -93,10 +125,22 @@ class FoodItemControllerr extends Controller
      */
     public function destroy(FoodItem $menu)
     {
-        
+      
+      Storage::delete($menu->image);
       $menu->delete();
 
       return to_route('menu.index')->with('success', 'Data has been deleted!!');
 
     }
+
+    public function pdf()
+    {
+      $menu = FoodItem::all();
+
+      view()->share('menu', $menu);
+      $pdf = PDF::loadview('admin.menu.datamenu');
+      return $pdf->download('datamenu.pdf');
+      
+    }
+
 }

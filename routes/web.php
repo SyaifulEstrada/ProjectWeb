@@ -1,11 +1,20 @@
 <?php
 
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KitchenStaffController;
 use App\Http\Controllers\Admin\RestaurantStaffController;
 use App\Http\Controllers\Login\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\FoodItemControllerr;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ReservationController;
+use App\Http\Controllers\FrontEnd\FROrderItemController;
+use App\Http\Controllers\FrontEnd\FRPaymentController;
+use App\Http\Controllers\FrontEnd\FRReservationController;
+use App\Http\Controllers\WelcomeController;
+use App\Models\Payment;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +27,7 @@ use App\Http\Controllers\Admin\FoodItemControllerr;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome', [
-      'title' => 'Home'
-    ]);
-});
+Route::get('/', [WelcomeController::class, 'index'])->name('home.welcome');
 
 // Login Routes
 
@@ -39,9 +44,29 @@ Route::group((['middleware' => 'auth', 'prefix' => 'admin', 'name' => 'admin.'])
   Route::resource('/kitchenstaff', KitchenStaffController::class, ['parameters' => ['kitchenstaff' => 'kitchen_staffs']]);
   Route::resource('/restaurantstaff', RestaurantStaffController::class,  ['parameters' => ['restaurantstaff' => 'staffrestaurant']]);
   Route::resource('/menu', FoodItemControllerr::class);
+  Route::resource('/reservations', ReservationController::class, ['parameters' => ['reservation' => 'reservations']]);
+  Route::resource('/payments', PaymentController::class);
+  Route::resource('/order_items', OrderController::class);
+  Route::resource('/customer', CustomerController::class,  ['parameters' => ['customer' => 'customers']]);
 });
 
-// Route::middleware('auth')->group(function () {
-//   Route::resource('/kitchenstaff', KitchenStaffController::class);
-// })->prefix('admin')->name('admin.');
+// Reservation route
+Route::get('/reservation', [FRReservationController::class, 'create'])->name('reservation.create');
+Route::post('/reservation/store', [FRReservationController::class, 'store'])->name('reservation.store');
 
+// Payments
+Route::get('/payments', [FRPaymentController::class, 'index'])->name('payment.index');
+Route::post('/payments/store', [FRPaymentController::class, 'store'])->name('payment.store');
+
+// Order items
+Route::get('/order_item', [FROrderItemController::class, 'index'])->name('orderi.index');
+Route::post('/order_item/store', [FROrderItemController::class, 'store'])->name('orderi.store');
+
+// print
+Route::get('/kitchenstaff/pdf', [KitchenStaffController::class, 'pdf'])->middleware('auth')->name('ks.print');
+Route::get('/restaurantstaff/pdf', [RestaurantStaffController::class, 'pdf'])->middleware('auth')->name('rs.print');
+Route::get('/menu/pdf', [FoodItemControllerr::class, 'pdf'])->middleware('auth')->name('menu.print');
+Route::get('/reservations/pdf', [ReservationController::class, 'pdf'])->middleware('auth')->name('reservation.print');
+Route::get('/payments/pdf', [PaymentController::class, 'pdf'])->middleware('auth')->name('payments.print');
+Route::get('/order_items/pdf', [OrderController::class, 'pdf'])->middleware('auth')->name('orderitems.print');
+Route::get('/customers/pdf', [CustomerController::class, 'pdf'])->middleware('auth')->name('customer.print');

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\KitchenStaffStoreRequest;
 use App\Models\KitchenStaff;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KitchenStaffController extends Controller
 {
@@ -16,8 +17,13 @@ class KitchenStaffController extends Controller
      */
     public function index()
     {
-        $kitchen_staff = KitchenStaff::all();
-        return view('admin.kitchenstaff.index', compact('kitchen_staff'));
+
+        // $kitchen_staff = KitchenStaff::latest();
+
+        // $kitchen_staff = KitchenStaff::with('orders')->paginate(3);
+        return view('admin.kitchenstaff.index', [
+          'kitchen_staff' => KitchenStaff::latest()->filter(request(['search']))->paginate(3),
+        ]);
     }
 
     /**
@@ -39,6 +45,7 @@ class KitchenStaffController extends Controller
     public function store(KitchenStaffStoreRequest $request)
     {
         KitchenStaff::create([
+        'customer_id' => $request->customer_id,
          'name' => $request->name,
          'gender' => $request->gender,
          'email' => $request->email,
@@ -99,4 +106,14 @@ class KitchenStaffController extends Controller
 
         return to_route('kitchenstaff.index')->with('success', 'Data has been deleted');
     }
+
+    public function pdf()
+    {
+      $kitchen_staffs = KitchenStaff::all();
+
+      view()->share('kitchen_staffs', $kitchen_staffs);
+      $pdf = PDF::loadview('admin.kitchenstaff.datakitchenstaff');
+      return $pdf->download('datakitchenstaff.pdf');
+    }
+
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RestaurantStaffStoreRequest;
 use App\Models\RestaurantStaff;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RestaurantStaffController extends Controller
 {
@@ -14,10 +15,15 @@ class RestaurantStaffController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     
+
     public function index()
     {
-        $restaurant_staff = RestaurantStaff::all();
-        return view('admin.restaurantstaff.index', compact('restaurant_staff'));
+        // $restaurant_staff = RestaurantStaff::with('menus')->paginate(3);
+        return view('admin.restaurantstaff.index', [
+          'restaurant_staff' => RestaurantStaff::latest()->filter(request(['search']))->paginate(3)
+        ]);
     }
 
     /**
@@ -99,4 +105,14 @@ class RestaurantStaffController extends Controller
 
         return to_route('restaurantstaff.index')->with('success', 'Data has been deleted!!');
     }
+
+    public function pdf()
+    {
+      $staffrestaurant = RestaurantStaff::all();
+
+      view()->share('staffrestaurant', $staffrestaurant);
+      $pdf = PDF::loadview('admin.restaurantstaff.datarestaurantstaff');
+      return $pdf->download('datarestaurantstaff.pdf');
+    }
+
 }

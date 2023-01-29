@@ -9,9 +9,20 @@ class FoodItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'quantity', 'price'];
+    protected $fillable = ['name', 'image', 'ingredients_name', 'quantity', 'price'];
 
     protected $primaryKey = 'food_id';
+
+    public function scopeFilter($query, array $filters)
+    {
+      $query->when( $filters['search'] ?? false, function ($query, $search) {
+        return $query->where('name', 'like' , '%' .$search . '%')
+        ->orWhere('ingredients_name', 'like', '%' .$search . '%')
+        ->orWhere('quantity', 'like', '%' .$search . '%')
+        ->orWhere('price', 'like', '%' .$search . '%');
+      });
+
+    }
 
     public function menus()
     {

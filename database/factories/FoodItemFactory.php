@@ -18,8 +18,8 @@ class FoodItemFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'quantity' => fake()->randomNumber(),
-            'price' => fake()->randomNumber(),
+            'quantity' => fake()->randomNumber(2),
+            'price' => fake()->randomNumber(3),
         ];
     }
 }

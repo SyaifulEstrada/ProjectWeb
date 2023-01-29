@@ -3,7 +3,8 @@
 @section('content')
   <div class="container">
     <h1 class="mb-4 mt-5 text-center">Tambah Data Menu</h1>
-    <form action="{{ route('menu.store') }}" class="form-horizontal" method="POST" style="margin-left: 100px;">
+    <form action="{{ route('menu.store') }}" class="form-horizontal" method="POST" style="margin-left: 100px;"
+      enctype="multipart/form-data">
       @csrf
       <div class="row">
         <div class="col-md-5">
@@ -14,12 +15,24 @@
         </div>
         <div class="col-md-5">
           <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity</label>
-            <input type="text" name="quantity" id="quantity" class="form-control">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" name="image" id="image" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="mb-3">
+            <label for="ingredients_name" class="form-label">Ingredient Name</label>
+            <input type="text" name="ingredients_name" id="ingredients_name" class="form-control">
           </div>
         </div>
       </div>
       <div class="row">
+        <div class="col-md-5">
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="text" name="quantity" id="quantity" class="form-control">
+          </div>
+        </div>
         <div class="col-md-5">
           <div class="mb-3">
             <label for="price" class="form-label">Price</label>

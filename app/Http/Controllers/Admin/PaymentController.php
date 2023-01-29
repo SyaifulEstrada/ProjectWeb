@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaymentStoreRequest;
+use App\Models\Payment;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PaymentController extends Controller
 {
@@ -14,7 +17,10 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+      // $payments = Payment::paginate(3);
+       return view('admin.payments.index', [
+        'payments' => Payment::latest()->filter(request(['search']))->paginate(3)
+       ]);
     }
 
     /**
@@ -33,9 +39,10 @@ class PaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PaymentStoreRequest $request)
     {
-        //
+       
+
     }
 
     /**
@@ -82,4 +89,14 @@ class PaymentController extends Controller
     {
         //
     }
+
+    public function pdf()
+    {
+      $payments = Payment::all();
+
+      view()->share('payments', $payments);
+      $pdf = PDF::loadview('admin.payments.datapayment');
+      return $pdf->download('datapayment.pdf');
+    }
+
 }

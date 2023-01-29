@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('food_items', function (Blueprint $table) {
             $table->id('food_id');
             $table->string('name');
+            $table->string('image')->nullable();
+            $table->string('ingredients_name', 255);
             $table->integer('quantity');
-            $table->decimal('price');
+            $table->bigInteger('price');
             $table->timestamps();
         });
     }

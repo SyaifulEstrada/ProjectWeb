@@ -52,43 +52,28 @@
         </div>
       </div>
     </section>
+
     <section id="menu" class="mt-5 bg-white">
       <div class="row">
         <h1 class="mb-5 text-center">Menu</h1>
-        <div class="col-md-4">
-          <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+        @foreach ($menu as $menus)
+          <div class="col-md-4">
+            <div class="card mt-5" style="width: 18rem;">
+              <img src="{{ Storage::url($menus->image) }}" class="card-img-top" alt="{{ $menus->name }}" width="280"
+                height="280">
+              <div class="card-body">
+                <h5 class="card-text">Food Name : {{ $menus->name }}</h5>
+                <p class="card-text">Ingredient : {{ $menus->ingredients_name }}</p>
+                <p class="card-text">Quantity : {{ $menus->quantity }}</p>
+                <p class="card-text">Price : {{ $menus->price }}</p>
+                <a href="{{ route('orderi.index') }}" class="btn btn-primary">Order Now</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-        </div>
+        @endforeach
       </div>
     </section>
+
+
   </div>
 @endsection

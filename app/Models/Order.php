@@ -13,5 +13,10 @@ class Order extends Model
     {
       return $this->belongsTo(KitchenStaff::class, 'user_id');
     }
+    
+    public function customers()
+    {
+      return $this->hasMany(Customer::class, 'customer_id');
+    }
 
 }

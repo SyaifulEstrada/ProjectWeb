@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
@@ -14,7 +16,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        // $order_items = OrderItem::paginate(3);
+        return view('admin.orderitem.index', [
+          'order_items' => OrderItem::latest()->filter(request(['search']))->paginate(3)
+        ]);
     }
 
     /**
@@ -82,4 +87,14 @@ class OrderController extends Controller
     {
         //
     }
+
+    public function pdf()
+    {
+      $order_items = OrderItem::all();
+
+      view()->share('order_items', $order_items);
+      $pdf = PDF::loadview('admin.orderitem.dataorderitems');
+      return $pdf->download('dataorderitems.pdf');
+    }
+
 }

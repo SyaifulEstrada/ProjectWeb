@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id('ingredients_id');
-            $table->string('ingredients_name');
+            $table->string('ingredients_name', 255);
             $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('order_id')->on('order_items')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
