@@ -19,4 +19,9 @@ class Order extends Model
       return $this->hasMany(Customer::class, 'customer_id');
     }
 
+    public function payments()
+    {
+      return $this->belongsTo(Payment::class, 'id_invoice', 'order_id');
+    }
+
 }

@@ -23,6 +23,17 @@ class PaymentController extends Controller
        ]);
     }
 
+    public function strukpembelian($id_invoice)
+    {
+
+      $payments = Payment::where('id_invoice', $id_invoice)->get();
+
+      view()->share('payments', $payments);
+      $pdf = PDF::loadview('food.struk');
+      return $pdf->download('strukpembayaran.pdf');
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

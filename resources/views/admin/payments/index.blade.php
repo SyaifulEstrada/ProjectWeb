@@ -24,6 +24,7 @@
               <th>Order Id</th>
               <th>Payment Date</th>
               <th>Payment Amount</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -33,6 +34,7 @@
                 <td>{{ $payment->order_id }}</td>
                 <td>{{ $payment->payment_date }}</td>
                 <td>{{ $payment->payment_amount }}</td>
+                <td><a href="{{ route('print.struk', $payment->id_invoice) }}" class="btn btn-danger">Print</a></td>
               </tr>
             @endforeach
           </tbody>

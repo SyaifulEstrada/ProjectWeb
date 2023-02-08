@@ -54,7 +54,7 @@ class FROrderItemController extends Controller
         ]);
 
 
-        return to_route('payment.index');
+        return to_route('payment.food');
     }
 
     /**

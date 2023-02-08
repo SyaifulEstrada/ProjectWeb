@@ -29,4 +29,10 @@ class FoodItem extends Model
       return $this->belongsTo(Menu::class, 'menu_id', 'food_id');
     }
 
+    public function payments()
+    {
+      return $this->belon(Payment::class);
+    }
+
+  
 }

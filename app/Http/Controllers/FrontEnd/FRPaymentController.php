@@ -7,6 +7,8 @@ use App\Http\Requests\PaymentStoreRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Illuminate\Support\Facades\Pdf;
 
 class FRPaymentController extends Controller
 {
@@ -21,6 +23,14 @@ class FRPaymentController extends Controller
       return view('payments', [
         'title' =>  'Payment'
       ], compact('orders'));
+    }
+
+    public function foodpayments()
+    {
+      $orders = Order::all();
+      return view('foodpayments', compact('orders'), [
+        'title' => 'Food Payment'
+      ]);
     }
 
     /**
@@ -46,9 +56,17 @@ class FRPaymentController extends Controller
         'payment_date' => $request->payment_date,
         'payment_amount' => $request->payment_amount,
       ]);
-      
-      return to_route('home.welcome');
+
+
+      //  to_route('print.struk');
+      // return to_route('payments.print');
+
+      return to_route('payment.bill');
+
     }
+
+
+
 
     /**
      * Display the specified resource.
@@ -93,5 +111,15 @@ class FRPaymentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+        public function bill()
+    {
+      $payments = Payment::all('id_invoice', 'order_id', 'payment_date', 'payment_amount')->last();
+
+      view()->share('payments', $payments);
+      $pdf = FacadePdf::loadview('food.bill');
+      return $pdf->download('bill.pdf');
+
     }
 }

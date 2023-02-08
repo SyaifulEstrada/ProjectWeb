@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('food_items', function (Blueprint $table) {
             $table->id('food_id');
             $table->string('name');
+            $table->unsignedBigInteger('id_invoice');
+            $table->foreign('id_invoice')->references('id_invoice')->on('payments')->onDelete('cascade')->onUpdate('cascade');
             $table->string('image')->nullable();
             $table->string('ingredients_name', 255);
             $table->integer('quantity');
