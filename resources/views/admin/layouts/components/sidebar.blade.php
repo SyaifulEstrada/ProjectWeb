@@ -28,7 +28,13 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('payments.index') }}">
           <span data-feather="layers" class="align-text-bottom"></span>
-          Payment
+          Food Payment
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('reservationspayments.index') }}">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          Reservation Payment
         </a>
       </li>
       <li class="nav-item">

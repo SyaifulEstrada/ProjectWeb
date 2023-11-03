@@ -18,11 +18,8 @@
         <div class="col-md-4">
           <div class="mb-3">
             <label for="order_id" class="form-label">Order Id</label>
-            <select name="order_id" id="order_id" class="form-select">
-              @foreach ($orders as $order)
-                <option value="{{ $order->order_id }}">{{ $order->order_id }}</option>
-              @endforeach
-            </select>
+            <input type="text" class="form-control" name="order_id" id="order_id" value="{{ $order_items->order_id }}"
+              readonly>
           </div>
         </div>
         <div class="col-md-4">
@@ -36,14 +33,28 @@
         <div class="col-md-4">
           <div class="mb-3">
             <label for="payment_amount" class="form-label">Payment Amount</label>
-            <input type="text" class="form-control" id="payment_amount" name="payment_amount">
+            <input type="text" class="form-control" id="payment_amount" name="payment_amount"
+              value="{{ $order_items->unit_price }}" readonly>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="customer_name" class="form-label">Customer Name</label>
+            <input type="text" class="form-control" id="customer_name" name="customer_name"
+              value="{{ $order_items->customer_name }}" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="food_id">Food Id</label>
+            <input type="text" class="form-control" name="food_id" id="food_id" value="{{ $order_items->food_id }}"
+              readonly>
           </div>
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
-      {{-- <a href="{{ route('struk.food') }}" class="btn btn-danger">Print Struk</a> --}}
-      {{-- <a href="{{ route('payment.store', $id_invoice) }}" type="submit" class="btn btn-primary">Submit</a> --}}
-
     </form>
   </div>
 @endsection

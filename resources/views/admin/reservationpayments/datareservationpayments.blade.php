@@ -40,21 +40,19 @@
   <table id="customers">
     <tr>
       <th>Payment Id</th>
-      <th>Order Id</th>
       <th>Payment Date</th>
       <th>Payment Amount</th>
-      <th>Customer Name</th>
-      <th>Food Id</th>
+      <th>Customer Id</th>
+      <th>Guest Number</th>
     </tr>
 
-    @foreach ($payments as $payment)
+    @foreach ($reservation_payments as $rp)
       <tr>
-        <td>{{ $payment->id_invoice }}</td>
-        <td>{{ $payment->order_id }}</td>
-        <td>{{ $payment->payment_date }}</td>
-        <td>{{ $payment->payment_amount }}</td>
-        <td>{{ $payment->customer_name }}</td>
-        <td>{{ $payment->food_id }}</td>
+        <td>{{ $rp->id_invoice }}</td>
+        <td>{{ $rp->payment_date }}</td>
+        <td>{{ $rp->payment_amount }}</td>
+        <td>{{ $rp->customer_id }}</td>
+        <td>{{ $rp->no_of_guest }}</td>
       </tr>
     @endforeach
   </table>

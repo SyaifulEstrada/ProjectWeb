@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PaymentStoreRequest;
-use App\Models\Payment;
+use App\Models\Reservation;
+use App\Models\ReservationPayment;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Barryvdh\DomPDF\PDF;
 
-class PaymentController extends Controller
+class ReservationPaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +18,10 @@ class PaymentController extends Controller
      */
     public function index()
     {
-      // $payments = Payment::paginate(3);
-       return view('admin.payments.index', [
-        'payments' => Payment::latest()->filter(request(['search']))->paginate(3)
-       ]);
+        // $reservation_payments = ReservationPayment::paginate(3);
+        return view('admin.reservationpayments.index', [
+          'reservation_payments' => ReservationPayment::latest()->filter(request(['search']))->paginate(3)
+        ]);
     }
 
     /**
@@ -39,10 +40,9 @@ class PaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PaymentStoreRequest $request)
+    public function store(Request $request)
     {
-       
-
+        //
     }
 
     /**
@@ -92,11 +92,16 @@ class PaymentController extends Controller
 
     public function pdf()
     {
-      $payments = Payment::all();
+      $reservation_payments = ReservationPayment::all();
 
-      view()->share('payments', $payments);
-      $pdf = PDF::loadview('admin.payments.datapayment');
-      return $pdf->download('datapayment.pdf');
+      view()->share('reservation_payments', $reservation_payments);
+      $pdf = FacadePdf::loadView('admin.reservationpayments.datareservationpayments');
+      return $pdf->download('datareservationpayments.pdf');
+
+      // return view('admin.reservationpayments.datareservationpayments');
+
     }
 
 }
+
+

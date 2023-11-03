@@ -5,10 +5,12 @@ namespace App\Http\Controllers\FrontEnd;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentStoreRequest;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Illuminate\Support\Facades\Pdf;
+use Carbon\Carbon;
 
 class FRPaymentController extends Controller
 {
@@ -19,19 +21,12 @@ class FRPaymentController extends Controller
      */
     public function index()
     {
-      $orders = Order::all();
-      return view('payments', [
-        'title' =>  'Payment'
-      ], compact('orders'));
-    }
-
-    public function foodpayments()
-    {
-      $orders = Order::all();
-      return view('foodpayments', compact('orders'), [
+      $order_items = OrderItem::all()->last();
+      return view('foodpayments', compact('order_items'), [
         'title' => 'Food Payment'
       ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -40,7 +35,6 @@ class FRPaymentController extends Controller
      */
     public function create()
     {
-      return view('payments');
     }
 
     /**
@@ -51,17 +45,17 @@ class FRPaymentController extends Controller
      */
     public function store(PaymentStoreRequest $request)
     {
+
       Payment::create([
         'order_id' => $request->order_id,
         'payment_date' => $request->payment_date,
         'payment_amount' => $request->payment_amount,
+        'customer_name' => $request->customer_name,
+        'food_id' => $request->food_id,
       ]);
-
-
-      //  to_route('print.struk');
-      // return to_route('payments.print');
-
+      
       return to_route('payment.bill');
+
 
     }
 
@@ -115,11 +109,13 @@ class FRPaymentController extends Controller
 
         public function bill()
     {
-      $payments = Payment::all('id_invoice', 'order_id', 'payment_date', 'payment_amount')->last();
+      $payments = Payment::all('id_invoice', 'order_id', 'payment_date', 'payment_amount', 'customer_name', 'food_id')->last();
 
       view()->share('payments', $payments);
       $pdf = FacadePdf::loadview('food.bill');
       return $pdf->download('bill.pdf');
+
+      // return view('food.bill', compact('payments'));
 
     }
 }

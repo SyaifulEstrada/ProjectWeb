@@ -9,7 +9,7 @@ class OrderItem extends Model
 {
     use HasFactory;
   
-    protected $fillable =  ['order_id', 'food_id', 'quantity' , 'unit_price', 'ingredients_name'];
+    protected $fillable =  ['order_id', 'food_id', 'quantity' , 'unit_price', 'ingredients_name', 'customer_name'];
 
 
     public function scopeFilter($query, array $filters)
@@ -19,6 +19,7 @@ class OrderItem extends Model
         ->orWhere('food_id', 'like', '%' .$search . '%')
         ->orWhere('quantity', 'like', '%' .$search . '%')
         ->orWhere('unit_price', 'like', '%' .$search . '%')
+        ->orWhere('customer_name', 'like', '%' .$search . '%')
         ->orWhere('ingredients_name', 'like', '%' .$search . '%');
       });
 

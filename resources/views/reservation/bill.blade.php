@@ -312,24 +312,21 @@
                           <table class="invoice">
                             <tbody>
                               <tr>
-                                <td>{{ $payments->customer_name }}<br>Invoice
-                                  #{{ $payments->id_invoice }}<br>{{ $payments->payment_date }}</td>
+                                <td>Customer Id#{{ $reservation_payments->customer_id }}<br>Invoice
+                                  #{{ $reservation_payments->id_invoice }}<br>{{ $reservation_payments->payment_date }}
+                                </td>
                               </tr>
                               <tr>
                                 <td>
                                   <table class="invoice-items" cellpadding="0" cellspacing="0">
                                     <tbody>
                                       <tr>
-                                        <td>Food Id</td>
-                                        <td class="alignright">{{ $payments->food_id }}</td>
-                                      </tr>
-                                      <tr>
-                                        <td>Order Id</td>
-                                        <td class="alignright">{{ $payments->order_id }}</td>
+                                        <td>Guest Number</td>
+                                        <td class="alignright">{{ $reservation_payments->no_of_guest }}</td>
                                       </tr>
                                       <tr class="total">
                                         <td class="alignright" width="80%">Payment Amount</td>
-                                        <td class="alignright">{{ $payments->payment_amount }}</td>
+                                        <td class="alignright">{{ $reservation_payments->payment_amount }}</td>
                                       </tr>
                                     </tbody>
                                   </table>

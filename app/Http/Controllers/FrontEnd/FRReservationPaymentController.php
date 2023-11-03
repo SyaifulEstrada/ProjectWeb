@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PaymentStoreRequest;
-use App\Models\Payment;
+use App\Http\Requests\ReservationPaymentRequest;
+use App\Http\Requests\ReservationStoreRequest;
+use App\Models\Customer;
+use App\Models\OrderItem;
+use App\Models\ReservationPayment;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
-class PaymentController extends Controller
+class FRReservationPaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +20,11 @@ class PaymentController extends Controller
      */
     public function index()
     {
-      // $payments = Payment::paginate(3);
-       return view('admin.payments.index', [
-        'payments' => Payment::latest()->filter(request(['search']))->paginate(3)
-       ]);
+        $customers = Customer::all()->last();
+        $orders = OrderItem::all();
+        return view('payments', [
+          'title' => 'Reservation Payment'
+        ] ,compact('customers', 'orders'));
     }
 
     /**
@@ -39,9 +43,17 @@ class PaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PaymentStoreRequest $request)
+    public function store(ReservationPaymentRequest $request)
     {
-       
+      $test =   ReservationPayment::create([
+          'payment_date' => $request->payment_date,
+          'payment_amount' => $request->payment_amount,
+          'customer_id' => $request->customer_id,
+          'no_of_guest' => $request->no_of_guest,
+        ]);
+
+
+        return to_route('paymentreservation.bill');
 
     }
 
@@ -90,13 +102,15 @@ class PaymentController extends Controller
         //
     }
 
-    public function pdf()
+    public function bill()
     {
-      $payments = Payment::all();
 
-      view()->share('payments', $payments);
-      $pdf = PDF::loadview('admin.payments.datapayment');
-      return $pdf->download('datapayment.pdf');
+        $reservation_payments = ReservationPayment::all()->last();
+        view()->share('reservation_payments', $reservation_payments);
+        $pdf = FacadePdf::loadview('reservation.bill');
+        return $pdf->download('bill.pdf');
+        // return view('reservation.bill');
     }
 
 }
+

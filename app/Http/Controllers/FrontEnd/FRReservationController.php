@@ -24,13 +24,13 @@ class FRReservationController extends Controller
     {
       Reservation::create([
         'customer_id' => $request->customer_id,
-        'customer_name' => $request->customer_name,
         'date' => $request->date,
         'time' => $request->time,
         'no_of_guest' => $request->no_of_guest,
       ]);
-
-      return to_route('payment.index');
+      
+      return to_route('paymentreservation.index');
     }
 
+    
 }

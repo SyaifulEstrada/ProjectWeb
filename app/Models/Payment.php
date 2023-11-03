@@ -8,11 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
 
-    protected $fillable = ['order_id','payment_date', 'payment_amount'];
+    protected $fillable = ['order_id','payment_date', 'payment_amount', 'customer_name', 'food_id'];
 
     protected $primaryKey = 'id_invoice';
 
     protected $guarded = 'id_invoice';
+
+    protected $dates = [
+      'created_at',
+      'updated_at',
+  ];
 
     use HasFactory;
 
@@ -21,7 +26,9 @@ class Payment extends Model
       $query->when( $filters['search'] ?? false, function ($query, $search) {
         return $query->where('order_id', 'like' , '%' .$search . '%')
         ->orWhere('payment_date', 'like', '%' .$search . '%')
-        ->orWhere('payment_amount', 'like', '%' .$search . '%');
+        ->orWhere('payment_amount', 'like', '%' .$search . '%')
+        ->orWhere('customer_name', 'like', '%' .$search . '%')
+        ->orWhere('food_id', 'like', '%' .$search . '%');
       });
 
     }

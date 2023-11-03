@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('reservation_payments', function (Blueprint $table) {
             $table->id('id_invoice');
-            $table->unsignedBigInteger('order_id')->nullable();
             $table->string('payment_date');
             $table->decimal('payment_amount');
-            $table->string('customer_name', 255);
-            $table->unsignedBigInteger('food_id');
-            $table->foreign('order_id')->references('order_id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('customer_id');
+            $table->integer('no_of_guest');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('reservation_payments');
     }
 };

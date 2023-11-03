@@ -35,12 +35,22 @@
         </div>
       </div>
       <div class="row mt-4">
-        <label for="ingredients_name" class="form-label">Ingredient</label>
-        <select name="ingredients_name" id="ingredients_name" class="form-select">
-          @foreach ($menu as $menus)
-            <option value="{{ $menus->ingredients_name }}">{{ $menus->ingredients_name }}</option>
-          @endforeach
-        </select>
+        <div class="col-md-6">
+          <label for="ingredients_name" class="form-label">Ingredient</label>
+          <select name="ingredients_name" id="ingredients_name" class="form-select">
+            @foreach ($menu as $menus)
+              <option value="{{ $menus->ingredients_name }}">{{ $menus->ingredients_name }}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="customer_name" class="form-label">Customer Name</label>
+          <select name="customer_name" id="customer_name" class="form-select">
+            @foreach ($customers as $customer)
+              <option>{{ $customer->customer_name }}</option>
+            @endforeach
+          </select>
+        </div>
       </div>
       <div class="row mt-4">
         <button type="submit" class="btn btn-primary">Submit</button>

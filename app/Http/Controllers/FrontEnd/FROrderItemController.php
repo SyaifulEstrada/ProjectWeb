@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderItemStoreRequest;
+use App\Models\Customer;
 
 class FROrderItemController extends Controller
 {
@@ -20,7 +21,8 @@ class FROrderItemController extends Controller
     { 
       $menu = FoodItem::all();
       $orders = Order::all();
-        return view('orderitems', compact('menu', 'orders'), [
+      $customers = Customer::all();
+        return view('orderitems', compact('menu', 'orders', 'customers'), [
           'title' => 'Order'
         ]);
     }
@@ -51,10 +53,11 @@ class FROrderItemController extends Controller
         'quantity' => $request->quantity,
         'unit_price' => $request->unit_price,
         'ingredients_name' => $request->ingredients_name,
+        'customer_name' => $request->customer_name,
         ]);
 
 
-        return to_route('payment.food');
+        return to_route('payment.index');
     }
 
     /**

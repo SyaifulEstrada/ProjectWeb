@@ -27,6 +27,8 @@ class PaymentStoreRequest extends FormRequest
             'order_id' => ['required'],
             'payment_date' => ['required'],
             'payment_amount'=> ['required'],
+            'customer_name'=> ['required'],
+            'food_id'=> ['required'],
         ];
     }
 }

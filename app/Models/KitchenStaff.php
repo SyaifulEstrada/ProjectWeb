@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class KitchenStaff extends Model
 {
   use HasFactory;
-  
+
   protected $fillable = ['name', 'gender', 'email', 'password', 'phone', 'address'];
   protected $primaryKey = 'user_id';
 
@@ -23,6 +23,7 @@ class KitchenStaff extends Model
       });
 
     }
+
     public function orders()
     {
       return $this->hasMany(Order::class, 'user_id');

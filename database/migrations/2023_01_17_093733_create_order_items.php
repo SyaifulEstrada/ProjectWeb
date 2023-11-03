@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('quantity');
             $table->decimal('unit_price');
             $table->string('ingredients_name', 255);
+            $table->string('customer_name', 255);
             $table->foreign('order_id')->references('order_id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('food_id')->references('food_id')->on('food_items')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
